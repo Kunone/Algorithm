@@ -6,31 +6,33 @@ using System.Threading.Tasks;
 
 namespace Fibonacci
 {
+ 
     class Program
     {
-        private static Dictionary<int, Int64> values = new Dictionary<int, Int64>();
+        private static Dictionary<int, double> values = new Dictionary<int, double>();
+        const int FirstAbove = 1000;
+        const int Count = 1000;
 
         static void Main(string[] args)
         {
             Console.WriteLine("hello fibonacci");
 
-            var firstAbove = 1000;
-            var count = 1000;
-            var startValue = FiboStart(firstAbove);
-            var startIndex = values.Keys.Where(i => values[i] == startValue).FirstOrDefault();
-            var endIndex = startIndex + count - 1;
+            var startValue = FiboStart(FirstAbove);
+            var startIndex = values.Keys.FirstOrDefault(i => values[i] == startValue);
+            var endIndex = startIndex + Count - 1;
             Fibo(endIndex);
-            var result = 0;// values.Values.Sum();
+            var result = values.Values.Where(i => i >= startValue).Sum();
 
-            Console.WriteLine("The first above {0}: {1}-{2}", firstAbove, startIndex, startValue);
-            Console.WriteLine("The sum of 1000 numbers which above {0}: {1}", firstAbove, result);
+            Console.WriteLine("The first above {0}: {1}-{2}", FirstAbove, startIndex, startValue);
+            Console.WriteLine("The last number: {0}-{1}", values.Keys.LastOrDefault(), values.Values.LastOrDefault());
+            Console.WriteLine("The sum of 1000 numbers which above {0}: {1}", FirstAbove, result);
         }
 
-        static Int64 FiboStart(int n)
+        static double FiboStart(double n)
         {
-            Int64 nNum = 0;
+            double nNum = 0;
             var i = 0;
-            while(true)
+            while (true)
             {
                 nNum = Fibo(i);
                 if (nNum >= n)
@@ -41,10 +43,10 @@ namespace Fibonacci
             }
         }
 
-        static Int64 Fibo(int n)
+        static double Fibo(int n)
         {
 
-            Int64 returnValue = 0;
+            double returnValue = 0;
 
             if (values.TryGetValue(n, out returnValue))
             {
@@ -60,4 +62,5 @@ namespace Fibonacci
             return returnValue;
         }
     }
+ 
 }
